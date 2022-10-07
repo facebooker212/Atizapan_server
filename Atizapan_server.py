@@ -38,8 +38,10 @@ def postcoord():
 @app.route('/coords')
 def readcoords():
     data = db.atizapanCoords.find({"Coords":{"$exists": True}})
+    coords_str = ""
     for i in data:
-        return i["Coords"]
+        coords_str = i["Coords"]
+    return coords_str
 
 
 if __name__ == '__main__':
