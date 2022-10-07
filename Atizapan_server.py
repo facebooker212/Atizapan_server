@@ -38,15 +38,8 @@ def postcoord():
 @app.route('/coords')
 def readcoords():
     data = db.atizapanCoords.find({"Coords":{"$exists": True}})
-    coord_dict = ""
-    for a in data:
-        coord_dict = a["Coords"]
-    #json_docs = []
-    #for doc in data:
-    #    json_doc = json.dumps(doc, default=json_util.default)
-    #    json_docs.append(json_doc)
-    #print(json_docs["Coords"])
-    return coord_dict
+    for i in data:
+        return i["Coords"]
 
 
 if __name__ == '__main__':
