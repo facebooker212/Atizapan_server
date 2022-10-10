@@ -1,7 +1,7 @@
 from flask import Flask, request, render_template
 from pymongo import MongoClient
 from dotenv import load_dotenv
-from bson import json_util
+from bson.json_util import dumps
 import os
 import urllib
 import json
@@ -38,10 +38,13 @@ def postcoord():
 @app.route('/coords')
 def readcoords():
     data = db.atizapanCoords.find({"Coords":{"$exists": True}})
-    coords_str = ""
-    for i in data:
-        coords_str = i["Coords"]
-    return coords_str
+    list_cur = list(data)
+    json_data = dumps(list_cur)
+    return json_data
+    #coords_str = ""
+    #for i in data:
+    #    coords_str = i["Coords"]
+    #return coords_str
 
 
 if __name__ == '__main__':
