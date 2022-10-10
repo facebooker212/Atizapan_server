@@ -40,7 +40,7 @@ def postcoord():
 
 @app.route('/coords')
 def readcoords():
-    data = db.atizapanCoords.find({"Coords":{"$exists": True}})
+    data = db.atizapanCoords.find()
     list_cur = list(data)
     json_data = dumps(list_cur)
     return json_data
