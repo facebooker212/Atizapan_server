@@ -28,14 +28,14 @@ def subcoord():
 
 @app.route('/subcoord', methods=['POST'])
 def postcoord():
-    if request.form['b_coords'] == "Subir coordenadas":
+    if request.form['b_coords'] == "Subir datos":
         coords = request.form['coords']
         incidents = request.form['incidents']
-        db.atizapanCoords.update_one({"Coords":{"$exists": True}}, {"$push":{"Coords":coords, "Incidents":incidents}})
-        #db.atizapanCoords.update_one({"Coords":{"exists": True}}, {"$push":{"Incidents":incidents}})
+        db.atizapanCoords.update_one({"Coords":{"$exists": True}}, {"$push":{"Coords":coords,
+                                                                             "Incidents":incidents}})
     elif request.form['b_coords'] == "Borrar primer coordenada":
-        db.atizapanCoords.update_one({"Coords":{"$exists": True}}, {"$pop":{"Coords":-1}})
-        db.atizapanCoords.update_one({"Coords":{"$exists": True}}, {"$pop":{"Incidents":-1}})
+        db.atizapanCoords.update_one({"Coords":{"$exists": True}}, {"$pop":{"Coords":-1, "Incidents":-1}})
+        #db.atizapanCoords.update_one({"Coords":{"$exists": True}}, {"$pop":{"Incidents":-1}})
     return "Coordenadas actualizadas"
 
 @app.route('/coords')
@@ -44,10 +44,6 @@ def readcoords():
     list_cur = list(data)
     json_data = dumps(list_cur)
     return json_data
-    #coords_str = ""
-    #for i in data:
-    #    coords_str = i["Coords"]
-    #return coords_str
 
 
 if __name__ == '__main__':
