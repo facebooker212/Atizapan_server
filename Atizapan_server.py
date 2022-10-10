@@ -36,7 +36,7 @@ def postcoord():
         db.atizapanCoords.update_one({"Incidents":{"$exists": True}}, {"$push":{"Incidents":""}})
     elif request.form['b_coords'] == "Borrar primer coordenada":
         db.atizapanCoords.update_one({"Coords":{"$exists": True}}, {"$pop":{"Coords":-1, "Incidents":-1}})
-        #db.atizapanCoords.update_one({"Coords":{"$exists": True}}, {"$pop":{"Incidents":-1}})
+        db.atizapanCoords.update_one({"Incidents":{"$exists": True}}, {"$pop":{"Incidents":-1}})
     return "Coordenadas actualizadas"
 
 @app.route('/coords')
