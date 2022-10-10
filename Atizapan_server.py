@@ -31,8 +31,8 @@ def postcoord():
     if request.form['b_coords'] == "Subir coordenadas":
         coords = request.form['coords']
         incidents = request.form['incidents']
-        db.atizapanCoords.update_one({"Coords":{"$exists": True}}, {"$push":{"Coords":coords}})
-        db.atizapanCoords.update_one({"Coords":{"exists": True}}, {"$push":{"Incidents":incidents}})
+        db.atizapanCoords.update_one({"Coords":{"$exists": True}}, {"$push":{"Coords":coords, "Incidents":incidents}})
+        #db.atizapanCoords.update_one({"Coords":{"exists": True}}, {"$push":{"Incidents":incidents}})
     elif request.form['b_coords'] == "Borrar primer coordenada":
         db.atizapanCoords.update_one({"Coords":{"$exists": True}}, {"$pop":{"Coords":-1}})
         db.atizapanCoords.update_one({"Coords":{"$exists": True}}, {"$pop":{"Incidents":-1}})
