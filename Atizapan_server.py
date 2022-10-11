@@ -31,11 +31,13 @@ def postcoord():
     if request.form['b_coords'] == "Subir datos":
         coords = request.form['coords']
         incidents = request.form['incidents']
+        notifications = request.form['notifications']
         db.atizapanCoords.update_one({"Coords":{"$exists": True}}, {"$push":{"Coords":coords,
-                                                                             "Incidents":incidents}})
+                                                                             "Incidents":incidents,
+                                                                             "Notifications":notifications}})
         db.atizapanCoords.update_one({"Incidents":{"$exists": True}}, {"$push":{"Incidents":""}})
     elif request.form['b_coords'] == "Borrar primer coordenada":
-        db.atizapanCoords.update_one({"Coords":{"$exists": True}}, {"$pop":{"Coords":-1, "Incidents":-1}})
+        db.atizapanCoords.update_one({"Coords":{"$exists": True}}, {"$pop":{"Coords":-1, "Incidents":-1, "Notifications":-1}})
         db.atizapanCoords.update_one({"Incidents":{"$exists": True}}, {"$pop":{"Incidents":-1}})
     return "Coordenadas actualizadas"
 
@@ -49,5 +51,5 @@ def readcoords():
 
 if __name__ == '__main__':
     from waitress import serve
-    #app.run(use_reloader=True, port=5000, threaded=True)
-    serve(app, host="0.0.0.0", port=5000, url_scheme='https')
+    app.run(use_reloader=True, port=5000, threaded=True)
+    #serve(app, host="0.0.0.0", port=5000, url_scheme='https')
