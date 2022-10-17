@@ -2,6 +2,7 @@ from flask import Flask, request, render_template
 from pymongo import MongoClient
 from dotenv import load_dotenv
 from bson.json_util import dumps
+import datetime
 import os
 import urllib
 import json
@@ -33,6 +34,11 @@ def subcoord():
     return render_template('coord_submit.html')
 
 
+def currentTime():
+    x = datetime.datetime.now()
+    return x.minute
+
+
 # Handle POST request from /subcoord
 @app.route('/subcoord', methods=['POST'])
 def postcoord():
@@ -46,7 +52,8 @@ def postcoord():
             db.atizapanCoords.update_one({"Coords": {"$exists": True}},
                                          {"$push": {"Coords": coords,
                                                     "Incidents": incidents,
-                                                    "Notifications": notifications}})
+                                                    "Notifications": notifications,
+                                                    "Time": currentTime()}})
             db.atizapanCoords.update_one({"Incidents": {"$exists": True}},
                                          {"$push": {"Incidents": ""}})
             return "Coordenadas actualizadas"
@@ -54,7 +61,8 @@ def postcoord():
         db.atizapanCoords.update_one({"Coords": {"$exists": True}},
                                      {"$pop": {"Coords": -1,
                                                "Incidents": -1,
-                                               "Notifications": -1}})
+                                               "Notifications": -1,
+                                               "Time": -1}})
         db.atizapanCoords.update_one({"Incidents": {"$exists": True}},
                                      {"$pop": {"Incidents": -1}})
         return "Primer coordenada eliminada"
