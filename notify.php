@@ -28,8 +28,8 @@ function notify($to,$data){
 
 $to="/topics/alertasAtizapan"; #Firebase.messaging.subscribeTopic("alertasAtizapan")
 $data=array(
-    'title'=>'Greetings',
-    'body'=>'Hi, From PHP Script'
+    'title'=>'Alerta',
+    'body'=>$argv[1]
 );
 
 notify($to,$data);
