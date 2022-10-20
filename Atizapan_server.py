@@ -52,7 +52,7 @@ def postcoord():
         if (coords == ""):
             return "No dejar el campo coordenadas vacio"
         else:
-            proc = subprocess.Popen("php notify.php " + notifications, shell=True, stdout=subprocess.PIPE)
+            proc = subprocess.Popen("php notify.php " + str(notifications), shell=True, stdout=subprocess.PIPE)
             script_response = proc.stdout.read()
             db.atizapanCoords.update_one({"Coords": {"$exists": True}},
                                          {"$push": {"Coords": coords,
