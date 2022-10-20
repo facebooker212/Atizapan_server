@@ -28,7 +28,7 @@ function notify($to,$data){
 
 $to="/topics/alertasAtizapan"; #Firebase.messaging.subscribeTopic("alertasAtizapan")
 $data=array(
-    'title'=>'Alerta',
+    'title'=>'Alerta Atizapan',
     'body'=>$argv[1]
 );
 
