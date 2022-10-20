@@ -2,12 +2,15 @@ from flask import Flask, request, render_template
 from pymongo import MongoClient
 from dotenv import load_dotenv
 from bson.json_util import dumps
+from flask_bootstrap import Bootstrap
+import subprocess
 import datetime
 import os
 import urllib
 import json
 
 app = Flask(__name__)
+Bootstrap(app)
 
 # Initialize client
 client = MongoClient()
@@ -49,6 +52,8 @@ def postcoord():
         if (coords == ""):
             return "No dejar el campo coordenadas vacio"
         else:
+            proc = subprocess.Popen("php notify.php", shell=True, stdout=subprocess.PIPE)
+            script_response = proc.stdout.read()
             db.atizapanCoords.update_one({"Coords": {"$exists": True}},
                                          {"$push": {"Coords": coords,
                                                     "Incidents": incidents,
@@ -80,5 +85,5 @@ def readcoords():
 
 if __name__ == '__main__':
     from waitress import serve
-    #app.run(use_reloader=True, port=5000, threaded=True)
-    serve(app, host="0.0.0.0", port=5000, url_scheme='https')
+    app.run(use_reloader=True, port=5000, threaded=True)
+    #serve(app, host="0.0.0.0", port=5000, url_scheme='https')
